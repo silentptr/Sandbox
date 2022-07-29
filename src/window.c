@@ -1,6 +1,6 @@
 #include "Sandbox/window.h"
 
-Window* SBCreateWindow(uint16_t w, uint16_t h)
+Window* SB_CreateWindow(uint16_t w, uint16_t h)
 {
     Window* win = (Window*)malloc(sizeof(Window));
 
@@ -28,13 +28,13 @@ Window* SBCreateWindow(uint16_t w, uint16_t h)
     return win;
 }
 
-void SBDestroyWindow(Window* win)
+void SB_DestroyWindow(Window* win)
 {
     glfwDestroyWindow(win->handle);
     free(win);
 }
 
-void SBUpdateWindowTitle(Window* window, uint32_t ups, uint32_t fps)
+void SB_UpdateWindowTitle(Window* window, uint32_t ups, uint32_t fps)
 {
     char title[100];
     memset(&title[0], 0, 100);

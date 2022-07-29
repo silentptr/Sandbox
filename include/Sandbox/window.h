@@ -15,8 +15,8 @@ typedef struct
     GLFWwindow* handle;
 } Window;
 
-Window* SBCreateWindow(uint16_t, uint16_t);
-void SBDestroyWindow(Window*);
-void SBUpdateWindowTitle(Window*, uint32_t, uint32_t);
+Window* SB_CreateWindow(uint16_t, uint16_t);
+void SB_DestroyWindow(Window*);
+void SB_UpdateWindowTitle(Window*, uint32_t, uint32_t);
 
 #endif
