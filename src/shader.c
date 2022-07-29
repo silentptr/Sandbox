@@ -49,7 +49,6 @@ bool SB_Shader_Create(Shader* shader, const char* vss, const char* fss)
     }
 
     shader->program = program;
-    printf("Successfully created shader.\n");
     return true;
 }
 
