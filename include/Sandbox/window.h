@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "Sandbox/OGL.h"
+#include "Sandbox/gl.h"
 
 typedef struct
 {
