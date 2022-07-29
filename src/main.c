@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Sandbox/window.h"
+#include "Sandbox/renderer.h"
 
 void printerr(void)
 {
@@ -14,8 +15,11 @@ void printerr(void)
     }
 }
 
+void init();
 void update(double);
 void draw(double);
+
+Renderer renderer;
 
 int main(void)
 {
@@ -25,7 +29,7 @@ int main(void)
         return 1;
     }
 
-    Window* window = SBCreateWindow(1280, 720);
+    Window* window = SB_CreateWindow(1280, 720);
 
     if (window == NULL)
     {
@@ -36,7 +40,7 @@ int main(void)
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        SBDestroyWindow(window);
+        SB_DestroyWindow(window);
         glfwTerminate();
         return 1;
     }
@@ -55,6 +59,8 @@ int main(void)
     double refreshRate = 1.0 / (double)glfwGetVideoMode(glfwGetPrimaryMonitor())->refreshRate;
     uint32_t updates = 0, draws = 0;
     double lastStatCount = 0.0;
+    init();
+    fflush(stdout);
 
     while (!glfwWindowShouldClose(window->handle))
     {
@@ -87,15 +93,21 @@ int main(void)
         if (now - lastStatCount >= 1.0)
         {
             lastStatCount = now;
-            SBUpdateWindowTitle(window, updates, draws);
+            SB_UpdateWindowTitle(window, updates, draws);
             updates = 0;
             draws = 0;
         }
     }
 
-    SBDestroyWindow(window);
+    SB_DestroyWindow(window);
     glfwTerminate();
     return 0;
+}
+
+void init()
+{
+    SB_Renderer_Create(&renderer);
+    //SB_Shader_FromFile(&mainShader, "res/shaders/main_vs.glsl", "res/shaders/main_fs.glsl");
 }
 
 void update(double delta)
@@ -106,4 +118,5 @@ void update(double delta)
 void draw(double alpha)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SB_Renderer_TestDraw(&renderer);
 }
