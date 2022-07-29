@@ -107,7 +107,6 @@ int main(void)
 void init()
 {
     SB_Renderer_Create(&renderer);
-    //SB_Shader_FromFile(&mainShader, "res/shaders/main_vs.glsl", "res/shaders/main_fs.glsl");
 }
 
 void update(double delta)
