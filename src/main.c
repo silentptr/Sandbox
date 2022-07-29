@@ -40,6 +40,7 @@ int main(void)
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
+        printerr();
         SB_DestroyWindow(window);
         glfwTerminate();
         return 1;
