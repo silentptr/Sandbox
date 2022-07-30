@@ -15,10 +15,11 @@ void printerr(void)
     }
 }
 
-void init();
+void init(void);
 void update(double);
 void draw(double);
 
+Window* window;
 Renderer renderer;
 
 int main(void)
@@ -29,7 +30,7 @@ int main(void)
         return 1;
     }
 
-    Window* window = SB_CreateWindow(1280, 720);
+    window = SB_CreateWindow(1280, 720);
 
     if (window == NULL)
     {
@@ -105,9 +106,9 @@ int main(void)
     return 0;
 }
 
-void init()
+void init(void)
 {
-    SB_Renderer_Create(&renderer);
+    SB_Renderer_Create(&renderer, window);
 }
 
 void update(double delta)
