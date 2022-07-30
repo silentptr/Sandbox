@@ -2,14 +2,16 @@
 #define SANDBOX_RENDERER_H_
 
 #include "Sandbox/shader.h"
+#include "Sandbox/window.h"
 
 typedef struct
 {
+    Window* windowptr;
     Shader shader;
     GLuint vao, vbo, ebo;
 } Renderer;
 
-bool SB_Renderer_Create(Renderer*);
+bool SB_Renderer_Create(Renderer*, Window*);
 
 void SB_Renderer_TestDraw(Renderer*);
 

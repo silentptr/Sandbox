@@ -1,12 +1,13 @@
 #include "Sandbox/renderer.h"
 
-bool SB_Renderer_Create(Renderer* renderer)
+bool SB_Renderer_Create(Renderer* renderer, Window* window)
 {
     if (!SB_Shader_FromFile(&renderer->shader, "res/shaders/main_vs.glsl", "res/shaders/main_fs.glsl"))
     {
         return false;
     }
 
+    renderer->windowptr = window;
     glGenVertexArrays(1, &renderer->vao);
     glGenBuffers(1, &renderer->vbo);
     glGenBuffers(1, &renderer->ebo);
