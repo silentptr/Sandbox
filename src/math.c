@@ -8,7 +8,6 @@ void SB_Matrix4_SetIdentity(Matrix4* mat4)
     mat4->data[5] = 1.0f;
     mat4->data[10] = 1.0f;
     mat4->data[15] = 1.0f;
-    return mat4;
 }
 
 void SB_Matrix4_SetOrtho(Matrix4* mat4, float left, float right, float top, float bottom, float near, float far)
