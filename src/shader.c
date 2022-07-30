@@ -94,3 +94,14 @@ bool SB_Shader_FromFile(Shader* shader, const char* vssfile, const char* fssfile
     fclose(fp);
     return SB_Shader_Create(shader, &vss[0], &fss[0]);
 }
+
+bool SB_Shader_SetUniformMatrix4(Shader* shader, const char* uniform, Matrix4* mat4)
+{
+    GLint location = glGetUniformLocation(shader->program, uniform);
+
+    if (location == -1) { return false; }
+
+    float data[16];
+    SB_Matrix4_GetGLArray(mat4, &data[0]);
+    glUniformMatrix4fv(location, 1, GL_FALSE, &data[0]);
+}
