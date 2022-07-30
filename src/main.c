@@ -15,7 +15,7 @@ void printerr(void)
     }
 }
 
-void init();
+void init(void);
 void update(double);
 void draw(double);
 
@@ -104,7 +104,7 @@ int main(void)
     return 0;
 }
 
-void init()
+void init(void)
 {
     SB_Renderer_Create(&renderer);
 }
