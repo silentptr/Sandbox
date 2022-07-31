@@ -35,8 +35,27 @@ bool SB_Renderer_Create(Renderer* renderer, Window* window)
     return true;
 }
 
-void SB_Renderer_Draw(Renderer* renderer, Texture2D* texture, Rectangle* rect, float angle)
+void SB_Renderer_Draw(Renderer* renderer, Texture2D* texture, Rectangle* rect, float angle, Vector2* rotOrigin)
 {
+    Rectangle rectSpare;
+    Vector2 vecSpare;
+
+    if (rect == NULL)
+    {
+        rectSpare.x = 0.0f;
+        rectSpare.y = 0.0f;
+        rectSpare.width = (float)texture->width;
+        rectSpare.height = (float)texture->height;
+        rect = &rectSpare;
+    }
+
+    if (rotOrigin == NULL)
+    {
+        vecSpare.x = rect->width / 2.0f;
+        vecSpare.y = rect->height / 2.0f;
+        rotOrigin = &vecSpare;
+    }
+
     glUseProgram(renderer->shader.program);
     glBindVertexArray(renderer->vao);
     glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
@@ -52,8 +71,8 @@ void SB_Renderer_Draw(Renderer* renderer, Texture2D* texture, Rectangle* rect, f
     SB_Matrix4_SetTranslation(&position, rect->x, rect->y, 0.0f);
     SB_Matrix4_SetScale(&scale, rect->width, rect->height, 0.0f);
     SB_Matrix4_SetRotationZ(&rotation, angle);
-    SB_Matrix4_SetTranslation(&rotationOrigin, 0.5f * rect->width, 0.5f * rect->height, 0.0f);
-    SB_Matrix4_SetTranslation(&rotationOriginNeg, -0.5f * rect->width, -0.5f * rect->height, 0.0f);
+    SB_Matrix4_SetTranslation(&rotationOrigin, rotOrigin->x, rotOrigin->y, 0.0f);
+    SB_Matrix4_SetTranslation(&rotationOriginNeg, -rotOrigin->x, -rotOrigin->y, 0.0f);
 
     SB_Matrix4_Multiply(&transform, &position, &transform);
     SB_Matrix4_Multiply(&transform, &rotationOrigin, &transform);

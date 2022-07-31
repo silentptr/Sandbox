@@ -13,9 +13,6 @@ typedef struct
 } Renderer;
 
 bool SB_Renderer_Create(Renderer*, Window*);
-
-void SB_Renderer_Draw(Renderer*, Texture2D*, Rectangle*, float);
-void SB_Renderer_TestDraw(Renderer*);
-void SB_Renderer_TestDraw2(Renderer*, Texture2D*);
+void SB_Renderer_Draw(Renderer*, Texture2D*, Rectangle*, float, Vector2*);
 
 #endif

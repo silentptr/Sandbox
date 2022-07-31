@@ -118,12 +118,12 @@ void init(void)
 
 void update(double delta)
 {
-    SB_Rectangle_Set(&rect, 50.0f, 50.0f, 410.0f, 321.0f);
+    SB_Rectangle_Set(&rect, 500.0f, 200.0f, 410.0f, 321.0f);
     rotation += SB_DegreesToRadians(delta * 20.0f);
 }
 
 void draw(double alpha)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SB_Renderer_Draw(&renderer, &texture, &rect, rotation);
+    SB_Renderer_Draw(&renderer, &texture, &rect, rotation, NULL);
 }
