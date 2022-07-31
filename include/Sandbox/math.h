@@ -15,17 +15,17 @@
 
 typedef struct
 {
-    float data[2];
+    float x, y;
 } Vector2;
 
 typedef struct
 {
-    float data[3];
+    float x, y, z;
 } Vector3;
 
 typedef struct
 {
-    float data[4];
+    float x, y, z, w;
 } Vector4;
 
 typedef struct
