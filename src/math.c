@@ -129,3 +129,8 @@ float SB_DegreesToRadians(float degrees)
 {
     return degrees * (SB_PI_F32 / 180.0f);
 }
+
+float SB_Lerp(float a, float b, float t)
+{
+    return a * t + b * (1.0f - t);
+}

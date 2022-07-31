@@ -57,5 +57,6 @@ void SB_Matrix4_GetGLArray(Matrix4*, float*);
 // ===== GLOBAL =====
 
 float SB_DegreesToRadians(float);
+float SB_Lerp(float, float, float);
 
 #endif
