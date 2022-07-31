@@ -32,7 +32,10 @@ typedef struct
 
 // ===== Matrix4 =====
 
+void SB_Matrix4_Multiply(Matrix4*, Matrix4*, Matrix4*);
 void SB_Matrix4_SetIdentity(Matrix4*);
+void SB_Matrix4_SetTranslation(Matrix4*, float, float, float);
+void SB_Matrix4_SetScale(Matrix4*, float, float, float);
 void SB_Matrix4_SetOrtho(Matrix4*, float, float, float, float, float, float);
 void SB_Matrix4_GetGLArray(Matrix4*, float*);
 

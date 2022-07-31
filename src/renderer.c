@@ -16,14 +16,19 @@ bool SB_Renderer_Create(Renderer* renderer, Window* window)
     glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer->ebo);
 
-    glBufferData(GL_ARRAY_BUFFER, 32, NULL, GL_DYNAMIC_DRAW);
-    GLuint indices[6];
-    indices[0] = 0;
-    indices[1] = 1;
-    indices[2] = 2;
-    indices[3] = 2;
-    indices[4] = 3;
-    indices[5] = 0;
+    float vertices[] =
+    {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
+    };
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
+    GLuint indices[] =
+    {
+        0, 1, 2,
+        2, 3, 0
+    };
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 8, (void*)0);
     glEnableVertexAttribArray(0);
@@ -36,13 +41,21 @@ void SB_Renderer_TestDraw(Renderer* renderer)
     glBindVertexArray(renderer->vao);
     glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer->ebo);
-    float vertices[] =
-    {
-        -.5f, .5f,
-        .5f, .5f,
-        .5f, -.5f,
-        -.5f, -.5f
-    };
-    glBufferSubData(GL_ARRAY_BUFFER, 0, 32, &vertices[0]);
+
+    Matrix4 projection;
+    SB_Matrix4_SetOrtho(&projection, 0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f);
+
+    Matrix4 transform;
+    SB_Matrix4_SetIdentity(&transform);
+
+    Matrix4 position, scale;
+    SB_Matrix4_SetTranslation(&position, 100.0f, 100.0f, 0.0f);
+    SB_Matrix4_SetScale(&scale, 100.0f, 100.0f, 0.0f);
+
+    SB_Matrix4_Multiply(&transform, &position, &transform);
+    SB_Matrix4_Multiply(&transform, &scale, &transform);
+
+    SB_Shader_SetUniformMatrix4(&renderer->shader, "projection", &projection);
+    SB_Shader_SetUniformMatrix4(&renderer->shader, "transform", &transform);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
