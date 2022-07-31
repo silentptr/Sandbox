@@ -18,10 +18,10 @@ bool SB_Renderer_Create(Renderer* renderer, Window* window)
 
     float vertices[] =
     {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f
+        0.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f
     };
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
     GLuint indices[] =
@@ -30,12 +30,12 @@ bool SB_Renderer_Create(Renderer* renderer, Window* window)
         2, 3, 0
     };
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 8, (void*)0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 16, (void*)0);
     glEnableVertexAttribArray(0);
     return true;
 }
 
-void SB_Renderer_TestDraw(Renderer* renderer)
+void SB_Renderer_Draw(Renderer* renderer, Texture2D* texture, Rectangle* rect)
 {
     glUseProgram(renderer->shader.program);
     glBindVertexArray(renderer->vao);
@@ -49,13 +49,15 @@ void SB_Renderer_TestDraw(Renderer* renderer)
     SB_Matrix4_SetIdentity(&transform);
 
     Matrix4 position, scale;
-    SB_Matrix4_SetTranslation(&position, 100.0f, 100.0f, 0.0f);
-    SB_Matrix4_SetScale(&scale, 100.0f, 100.0f, 0.0f);
+    SB_Matrix4_SetTranslation(&position, rect->x, rect->y, 0.0f);
+    SB_Matrix4_SetScale(&scale, rect->width, rect->height, 0.0f);
 
     SB_Matrix4_Multiply(&transform, &position, &transform);
     SB_Matrix4_Multiply(&transform, &scale, &transform);
 
     SB_Shader_SetUniformMatrix4(&renderer->shader, "projection", &projection);
     SB_Shader_SetUniformMatrix4(&renderer->shader, "transform", &transform);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture->handle);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

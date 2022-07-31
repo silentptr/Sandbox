@@ -27,8 +27,17 @@ typedef struct
 
 typedef struct
 {
+    float x, y, width, height;
+} Rectangle;
+
+typedef struct
+{
     float data[16];
 } Matrix4;
+
+// ===== Rectangle =====
+
+void SB_Rectangle_Set(Rectangle*, float, float, float, float);
 
 // ===== Matrix4 =====
 

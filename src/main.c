@@ -21,6 +21,8 @@ void draw(double);
 
 Window* window;
 Renderer renderer;
+Texture2D texture;
+Rectangle rect;
 
 int main(void)
 {
@@ -109,15 +111,16 @@ int main(void)
 void init(void)
 {
     SB_Renderer_Create(&renderer, window);
+    SB_Texture2D_FromFile(&texture, "res/images/test.jpg");
 }
 
 void update(double delta)
 {
-
+    SB_Rectangle_Set(&rect, 50.0f, 50.0f, 410.0f, 321.0f);
 }
 
 void draw(double alpha)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SB_Renderer_TestDraw(&renderer);
+    SB_Renderer_Draw(&renderer, &texture, &rect);
 }

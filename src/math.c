@@ -1,6 +1,14 @@
 #include "Sandbox/math.h"
 #include <string.h>
 
+void SB_Rectangle_Set(Rectangle* rect, float x, float y, float width, float height)
+{
+    rect->x = x;
+    rect->y = y;
+    rect->width = width;
+    rect->height = height;
+}
+
 void SB_Matrix4_Multiply(Matrix4* leftMat4, Matrix4* rightMat4, Matrix4* result)
 {
     float left[16];
