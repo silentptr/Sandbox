@@ -1,5 +1,6 @@
 #include "Sandbox/math.h"
 #include <string.h>
+#include <math.h>
 
 void SB_Rectangle_Set(Rectangle* rect, float x, float y, float width, float height)
 {
@@ -57,6 +58,39 @@ void SB_Matrix4_SetScale(Matrix4* mat4, float x, float y, float z)
     mat4->data[5] = y;
     mat4->data[10] = z;
     mat4->data[15] = 1.0f;
+}
+
+void SB_Matrix4_SetRotationX(Matrix4* mat4, float angle)
+{
+    SB_Matrix4_SetIdentity(mat4);
+    float c = cosf(angle);
+    float s = sinf(angle);
+    mat4->data[5] = c;
+    mat4->data[6] = -s;
+    mat4->data[10] = s;
+    mat4->data[11] = c;
+}
+
+void SB_Matrix4_SetRotationY(Matrix4* mat4, float angle)
+{
+    SB_Matrix4_SetIdentity(mat4);
+    float c = cosf(angle);
+    float s = sinf(angle);
+    mat4->data[0] = c;
+    mat4->data[3] = s;
+    mat4->data[8] = -s;
+    mat4->data[10] = c;
+}
+
+void SB_Matrix4_SetRotationZ(Matrix4* mat4, float angle)
+{
+    SB_Matrix4_SetIdentity(mat4);
+    float c = cosf(angle);
+    float s = sinf(angle);
+    mat4->data[0] = c;
+    mat4->data[1] = -s;
+    mat4->data[4] = s;
+    mat4->data[5] = c;
 }
 
 void SB_Matrix4_SetOrtho(Matrix4* mat4, float left, float right, float top, float bottom, float near, float far)
