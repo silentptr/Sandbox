@@ -124,3 +124,8 @@ void SB_Matrix4_GetGLArray(Matrix4* mat4, float* result)
     result[14] = mat4->data[11];
     result[15] = mat4->data[15];
 }
+
+float SB_DegreesToRadians(float degrees)
+{
+    return degrees * (SB_PI_F32 / 180.0f);
+}

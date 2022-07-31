@@ -1,6 +1,9 @@
 #ifndef SANDBOX_MATH_H_
 #define SANDBOX_MATH_H_
 
+#define SB_PI_F64 3.141592653589793
+#define SB_PI_F32 3.141592653589793f
+
 // ====================================================================================
 // matrices are stored row major
 // but need to be transformed to column major when sent to OpenGL
@@ -53,6 +56,6 @@ void SB_Matrix4_GetGLArray(Matrix4*, float*);
 
 // ===== GLOBAL =====
 
-
+float SB_DegreesToRadians(float);
 
 #endif
