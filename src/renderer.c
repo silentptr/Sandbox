@@ -35,7 +35,7 @@ bool SB_Renderer_Create(Renderer* renderer, Window* window)
     return true;
 }
 
-void SB_Renderer_Draw(Renderer* renderer, Texture2D* texture, Rectangle* rect)
+void SB_Renderer_Draw(Renderer* renderer, Texture2D* texture, Rectangle* rect, float angle)
 {
     glUseProgram(renderer->shader.program);
     glBindVertexArray(renderer->vao);
@@ -48,11 +48,17 @@ void SB_Renderer_Draw(Renderer* renderer, Texture2D* texture, Rectangle* rect)
     Matrix4 transform;
     SB_Matrix4_SetIdentity(&transform);
 
-    Matrix4 position, scale;
+    Matrix4 position, scale, rotation, rotationOrigin, rotationOriginNeg;
     SB_Matrix4_SetTranslation(&position, rect->x, rect->y, 0.0f);
     SB_Matrix4_SetScale(&scale, rect->width, rect->height, 0.0f);
+    SB_Matrix4_SetRotationZ(&rotation, angle);
+    SB_Matrix4_SetTranslation(&rotationOrigin, 0.5f * rect->width, 0.5f * rect->height, 0.0f);
+    SB_Matrix4_SetTranslation(&rotationOriginNeg, -0.5f * rect->width, -0.5f * rect->height, 0.0f);
 
     SB_Matrix4_Multiply(&transform, &position, &transform);
+    SB_Matrix4_Multiply(&transform, &rotationOrigin, &transform);
+    SB_Matrix4_Multiply(&transform, &rotation, &transform);
+    SB_Matrix4_Multiply(&transform, &rotationOriginNeg, &transform);
     SB_Matrix4_Multiply(&transform, &scale, &transform);
 
     SB_Shader_SetUniformMatrix4(&renderer->shader, "projection", &projection);

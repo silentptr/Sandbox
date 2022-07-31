@@ -23,6 +23,7 @@ Window* window;
 Renderer renderer;
 Texture2D texture;
 Rectangle rect;
+float rotation;
 
 int main(void)
 {
@@ -112,15 +113,17 @@ void init(void)
 {
     SB_Renderer_Create(&renderer, window);
     SB_Texture2D_FromFile(&texture, "res/images/test.jpg");
+    rotation = 0.0f;
 }
 
 void update(double delta)
 {
     SB_Rectangle_Set(&rect, 50.0f, 50.0f, 410.0f, 321.0f);
+    rotation += SB_DegreesToRadians(delta * 20.0f);
 }
 
 void draw(double alpha)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SB_Renderer_Draw(&renderer, &texture, &rect);
+    SB_Renderer_Draw(&renderer, &texture, &rect, rotation);
 }
