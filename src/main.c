@@ -15,15 +15,32 @@ void printerr(void)
     }
 }
 
+typedef struct
+{
+    Rectangle rect;
+    float rotation;
+} ObjectState;
+
+typedef struct
+{
+    Texture2D* texture;
+    ObjectState oldState, state;
+} Blueberry;
+
+void LerpObjectState(ObjectState* a, ObjectState* b, ObjectState* result, float t)
+{
+    result->rect.x = SB_Lerp(a->rect.x, b->rect.x, t);
+    result->rect.y = SB_Lerp(a->rect.y, b->rect.y, t);
+    result->rotation = SB_Lerp(a->rotation, b->rotation, t);
+}
+
 void init(void);
 void update(double);
 void draw(double);
 
 Window* window;
 Renderer* renderer;
-Texture2D* texture;
-Rectangle rect;
-float rotation;
+Blueberry blueberry;
 
 int main(void)
 {
@@ -105,7 +122,7 @@ int main(void)
     }
 
     SB_Renderer_Destroy(renderer);
-    SB_Texture2D_Destroy(texture);
+    SB_Texture2D_Destroy(blueberry.texture);
     SB_DestroyWindow(window);
     glfwTerminate();
     return 0;
@@ -114,18 +131,56 @@ int main(void)
 void init(void)
 {
     renderer = SB_Renderer_New(window);
-    texture = SB_Texture2D_FromFile("res/images/test.jpg");
-    rotation = 0.0f;
+    blueberry.texture = SB_Texture2D_FromFile("res/images/test.jpg");
+    blueberry.state.rotation = 0.0f;
+    SB_Rectangle_Set(&blueberry.state.rect, 0.0f, 0.0f, 410.0f, 321.0f);
 }
 
 void update(double delta)
 {
-    SB_Rectangle_Set(&rect, 500.0f, 200.0f, 410.0f, 321.0f);
-    rotation += SB_DegreesToRadians(delta * 20.0f);
+    memcpy(&blueberry.oldState, &blueberry.state, sizeof(ObjectState));
+    
+    if (glfwGetKey(window->handle, GLFW_KEY_A))
+    {
+        blueberry.state.rect.x -= 10.0f;
+    }
+
+    if (glfwGetKey(window->handle, GLFW_KEY_D))
+    {
+        blueberry.state.rect.x += 10.0f;
+    }
+
+    if (glfwGetKey(window->handle, GLFW_KEY_W))
+    {
+        blueberry.state.rect.y -= 10.0f;
+    }
+
+    if (glfwGetKey(window->handle, GLFW_KEY_S))
+    {
+        blueberry.state.rect.y += 10.0f;
+    }
+
+    if (glfwGetKey(window->handle, GLFW_KEY_MINUS))
+    {
+        blueberry.state.rotation -= SB_DegreesToRadians(delta * 50.0f);
+    }
+
+    if (glfwGetKey(window->handle, GLFW_KEY_EQUAL))
+    {
+        blueberry.state.rotation += SB_DegreesToRadians(delta * 50.0f);
+    }
+
+    if (glfwGetKey(window->handle, GLFW_KEY_R))
+    {
+        blueberry.state.rotation = 0.0f;
+    }
 }
 
 void draw(double alpha)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SB_Renderer_Draw(renderer, texture, &rect, rotation, NULL);
+    ObjectState state;
+    memcpy(&state, &blueberry.state, sizeof(ObjectState));
+    LerpObjectState(&blueberry.state, &blueberry.oldState, &state, alpha);
+    SB_Renderer_Draw(renderer, blueberry.texture, &state.rect, state.rotation, NULL);
 }
