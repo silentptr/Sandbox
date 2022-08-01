@@ -12,6 +12,9 @@ typedef struct
     GLuint vao, vbo, ebo;
 } Renderer;
 
+
+Renderer* SB_Renderer_New(Window*);
+void SB_Renderer_Destroy(Renderer*);
 bool SB_Renderer_Create(Renderer*, Window*);
 void SB_Renderer_Draw(Renderer*, Texture2D*, Rectangle*, float, Vector2*);
 

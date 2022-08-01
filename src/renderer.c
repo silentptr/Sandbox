@@ -1,5 +1,27 @@
 #include "Sandbox/renderer.h"
 
+Renderer* SB_Renderer_New(Window* window)
+{
+    Renderer* renderer = malloc(sizeof(Renderer));
+    
+    if (!SB_Renderer_Create(renderer, window))
+    {
+        free(renderer);
+        return NULL;
+    }
+
+    return renderer;
+}
+
+void SB_Renderer_Destroy(Renderer* renderer)
+{
+    glDeleteProgram(renderer->shader.program);
+    glDeleteBuffers(1, &renderer->vao);
+    glDeleteBuffers(1, &renderer->vbo);
+    glDeleteBuffers(1, &renderer->ebo);
+    free(renderer);
+}
+
 bool SB_Renderer_Create(Renderer* renderer, Window* window)
 {
     if (!SB_Shader_FromFile(&renderer->shader, "res/shaders/main_vs.glsl", "res/shaders/main_fs.glsl"))

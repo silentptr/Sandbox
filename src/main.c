@@ -20,7 +20,7 @@ void update(double);
 void draw(double);
 
 Window* window;
-Renderer renderer;
+Renderer* renderer;
 Texture2D texture;
 Rectangle rect;
 float rotation;
@@ -104,6 +104,7 @@ int main(void)
         }
     }
 
+    SB_Renderer_Destroy(renderer);
     SB_DestroyWindow(window);
     glfwTerminate();
     return 0;
@@ -111,7 +112,7 @@ int main(void)
 
 void init(void)
 {
-    SB_Renderer_Create(&renderer, window);
+    renderer = SB_Renderer_New(window);
     SB_Texture2D_FromFile(&texture, "res/images/test.jpg");
     rotation = 0.0f;
 }
