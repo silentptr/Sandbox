@@ -21,7 +21,7 @@ void draw(double);
 
 Window* window;
 Renderer* renderer;
-Texture2D texture;
+Texture2D* texture;
 Rectangle rect;
 float rotation;
 
@@ -105,6 +105,7 @@ int main(void)
     }
 
     SB_Renderer_Destroy(renderer);
+    SB_Texture2D_Destroy(texture);
     SB_DestroyWindow(window);
     glfwTerminate();
     return 0;
@@ -113,7 +114,7 @@ int main(void)
 void init(void)
 {
     renderer = SB_Renderer_New(window);
-    SB_Texture2D_FromFile(&texture, "res/images/test.jpg");
+    texture = SB_Texture2D_FromFile("res/images/test.jpg");
     rotation = 0.0f;
 }
 
@@ -126,5 +127,5 @@ void update(double delta)
 void draw(double alpha)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SB_Renderer_Draw(&renderer, &texture, &rect, rotation, NULL);
+    SB_Renderer_Draw(renderer, texture, &rect, rotation, NULL);
 }

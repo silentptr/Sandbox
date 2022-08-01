@@ -12,6 +12,7 @@ typedef struct
     uint32_t height;
 } Texture2D;
 
-bool SB_Texture2D_FromFile(Texture2D*, const char*);
+Texture2D* SB_Texture2D_FromFile(const char*);
+void SB_Texture2D_Destroy(Texture2D*);
 
 #endif
