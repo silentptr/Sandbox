@@ -68,8 +68,11 @@ int main(void)
     }
 
     glfwSwapInterval(1);
-    glViewport(0, 0, window->width, window->height);
+    
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    int fbw, fbh;
+    glfwGetFramebufferSize(window->handle, &fbw, &fbh);
+    glViewport(0, 0, fbw, fbh);
 
     double dt = 1.0 / 60.0;
     double currentTime = glfwGetTime();

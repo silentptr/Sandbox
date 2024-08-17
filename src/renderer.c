@@ -2,7 +2,7 @@
 
 Renderer* SB_Renderer_New(Window* window)
 {
-    Renderer* renderer = malloc(sizeof(Renderer));
+    Renderer* renderer = (Renderer*)malloc(sizeof(Renderer));
     
     if (!SB_Renderer_Create(renderer, window))
     {

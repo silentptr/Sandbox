@@ -5,7 +5,7 @@ Texture2D* SB_Texture2D_FromFile(const char* path)
 {
     uint32_t width, height, channels;
     stbi_set_flip_vertically_on_load(1);
-    unsigned char* data = stbi_load(path, &width, &height, &channels, 4);
+    unsigned char* data = stbi_load(path, (int*)&width, (int*)&height, (int*)&channels, 4);
 
     if (!data)
     {
@@ -24,7 +24,7 @@ Texture2D* SB_Texture2D_FromFile(const char* path)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     stbi_image_free(data);
 
-    Texture2D* result = malloc(sizeof(Texture2D));
+    Texture2D* result = (Texture2D*)malloc(sizeof(Texture2D));
     result->width = width;
     result->height = height;
     result->handle = handle;

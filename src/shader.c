@@ -104,4 +104,5 @@ bool SB_Shader_SetUniformMatrix4(Shader* shader, const char* uniform, Matrix4* m
     float data[16];
     SB_Matrix4_GetGLArray(mat4, &data[0]);
     glUniformMatrix4fv(location, 1, GL_FALSE, &data[0]);
+    return true;
 }
